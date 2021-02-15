@@ -31,7 +31,7 @@
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
 
 
@@ -57,21 +57,27 @@
             </div>
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <label for="">First Class <span id="vip-total">$150</span></label>
+                    <input id="vip-price" class="inp-style inp-width" type="number" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <p>
+                        <span onclick="handleEconomyChange('vip', true)">+</span> 
+                        <span onclick="handleEconomyChange('vip', false)">-</span>
+
+                    </p>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <label for="">Economy <span id="economy-total">$100</span></label>
+                    <input id="economy-price" class="inp-style inp-width" type="number" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                   <p> <span onclick="handleEconomyChange('economy', true)">+</span> 
+                        <span onclick="handleEconomyChange('economy', false)">-</span>
+                     </p>
                 </div>
             </div>
             <div class="calculations">
@@ -80,7 +86,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="total-price" >$500</p>
                     </div>
                 </div>
 
@@ -89,7 +95,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="vat-amount">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -98,7 +104,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p  id="grand-total">$550</p>
                     </div>
                 </div>
             </div>
@@ -107,6 +113,49 @@
     </main>
 
     <!--Thank You-->
+
+    <script>
+        
+            function handleEconomyChange(normal, isIncrease){
+            const normalPrice = getInputValue(normal);
+            let normalNewPrice = normalPrice;
+            if(isIncrease == true){
+                normalNewPrice = normalPrice + 1;
+            }
+            if(isIncrease == false && normalPrice > 0){
+                normalNewPrice = normalPrice - 1;
+            }
+            document.getElementById(normal + '-price').value = normalNewPrice;
+            let normalTotal = 0;
+            if(normal == 'vip'){
+                normalTotal = normalNewPrice * 150;
+            }
+            if(normal == 'economy'){
+                normalTotal = normalNewPrice * 100;
+            }
+            document.getElementById(normal + '-total').innerText = '$' + normalTotal;
+            calculateTotal()
+        }
+        function calculateTotal(){
+            const vipPrice = getInputValue('vip');
+          const economyPrice = getInputValue('economy')
+
+            const totalPrice = vipPrice * 150 + economyPrice * 100;
+            document.getElementById('total-price').innerText = '$' + totalPrice;
+
+            const vat = Math.round(totalPrice / 10);
+            document.getElementById('vat-amount').innerText = '$' + vat;
+            const grandTotal = totalPrice + vat;
+            document.getElementById('grand-total').innerText = '$' + grandTotal;
+        }
+        function getInputValue(normal){
+            const normalInput = document.getElementById(normal + '-price');
+            const normalPrice = parseInt(normalInput.value);
+            return normalPrice;
+
+        }
+
+    </script>
 </body>
 
 </html>
