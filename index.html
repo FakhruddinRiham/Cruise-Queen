@@ -116,8 +116,8 @@
 
     <script>
         
-            function handleEconomyChange(normal, isIncrease){
-            const normalPrice = getInputValue(normal);
+            function handleEconomyChange(ticket, isIncrease){
+            const normalPrice = getInputValue(ticket);
             let normalNewPrice = normalPrice;
             if(isIncrease == true){
                 normalNewPrice = normalPrice + 1;
@@ -125,15 +125,15 @@
             if(isIncrease == false && normalPrice > 0){
                 normalNewPrice = normalPrice - 1;
             }
-            document.getElementById(normal + '-price').value = normalNewPrice;
+            document.getElementById(ticket + '-price').value = normalNewPrice;
             let normalTotal = 0;
-            if(normal == 'vip'){
+            if(ticket == 'vip'){
                 normalTotal = normalNewPrice * 150;
             }
-            if(normal == 'economy'){
+            if(ticket == 'economy'){
                 normalTotal = normalNewPrice * 100;
             }
-            document.getElementById(normal + '-total').innerText = '$' + normalTotal;
+            document.getElementById(ticket + '-total').innerText = '$' + normalTotal;
             calculateTotal()
         }
         function calculateTotal(){
@@ -148,8 +148,8 @@
             const grandTotal = totalPrice + vat;
             document.getElementById('grand-total').innerText = '$' + grandTotal;
         }
-        function getInputValue(normal){
-            const normalInput = document.getElementById(normal + '-price');
+        function getInputValue(ticket){
+            const normalInput = document.getElementById(ticket + '-price');
             const normalPrice = parseInt(normalInput.value);
             return normalPrice;
 
